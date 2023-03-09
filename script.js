@@ -1,8 +1,10 @@
 let textarea = document.querySelector('textarea');
-let create = document.querySelector('#create');
-let save = document.querySelector('#save');
-let notes = document.querySelector('#notes');
-let links = document.querySelectorAll('li');
+    create = document.querySelector('#create');
+    save = document.querySelector('#save');
+    notes = document.querySelector('#notes');
+    links = document.querySelectorAll('li');
+    names = document.querySelectorAll('.name');
+    closes = document.querySelectorAll('.close');
 
 
 let texts = [
@@ -18,21 +20,33 @@ function createNote() {
 
     
     let newLink = document.createElement('li');
-    newLink.innerHTML = 'Запись ' + texts.length;
+        newName = document.createElement('span');
+        newClose = document.createElement('span');
+    newName.classList.add('name');
+    newClose.classList.add('close');
+    newLink.appendChild(newName);
+    newLink.appendChild(newClose);
+    newName.innerHTML = 'Запись ' + texts.length;
     newLink.dataset.key = texts.length;
     notes.appendChild(newLink);
-    newLink.addEventListener('click', function() {
-        let other = [...this.parentNode.children].filter(n => n !== this);
+    newName.addEventListener('click', function() {
+        let other = [...this.parentNode.parentNode.children].filter(n => n !== this);
         for (let element of other) {
             if (element.classList.contains('active')) {
                 element.classList.remove('active');
             }
         }
-        this.classList.add('active');
-        let num = this.getAttribute('data-key');
+        this.parentNode.classList.add('active');
+        let num = this.parentNode.getAttribute('data-key');
         textarea.value = texts[num - 1];
         save.dataset.mode = 'update';
-        save.dataset.key = this.dataset.key;
+        save.dataset.key = this.parentNode.dataset.key;
+        
+    })
+
+    newClose.addEventListener('click', function() {
+        this.parentNode.remove();
+        textarea.value = '';
     })
 }
 
@@ -59,19 +73,29 @@ save.addEventListener ('click', function() {
     }
 })
 
-for (let link of links) {
-    link.addEventListener('click', function() {
+for (let item of names) {
+    item.addEventListener('click', function() {
         
-        let other = [...this.parentNode.children].filter(n => n !== this);
+        let other = [...this.parentNode.parentNode.children].filter(n => n !== this);
         for (let element of other) {
             if (element.classList.contains('active')) {
                 element.classList.remove('active');
             }
         }
-        this.classList.add('active');
-        let num = this.getAttribute('data-key');
+        this.parentNode.classList.add('active');
+        let num = this.parentNode.getAttribute('data-key');
         textarea.value = texts[num - 1];
         save.dataset.mode = 'update';
-        save.dataset.key = this.dataset.key;
+        save.dataset.key = this.parentNode.dataset.key;
+        console.log('hi')
     })
 }
+
+for (let item of closes) {
+    item.addEventListener('click', function() {
+        
+        this.parentNode.remove()
+        textarea.value = '';
+    })
+}
+

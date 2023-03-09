@@ -1,7 +1,9 @@
+@charset "UTF-8";
 #wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: sans-serif;
 }
 
 #menu {
@@ -63,11 +65,11 @@ button:hover {
   border-radius: 5px;
 }
 
-/* .close {
+.close {
   position: absolute;
   right: -25px;
   top: 3px;
-  &::after {
-    content: '\2716';
-  }
-} *//*# sourceMappingURL=style.css.map */
+}
+.close::after {
+  content: "✖";
+}/*# sourceMappingURL=style.css.map */
